@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Wishes 🎄</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .page {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #c0392b;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .santa-emoji {
+            font-size: 6em;
+            animation: santaWave 2s ease-in-out infinite;
+            display: inline-block;
+            margin: 20px 0;
+            filter: drop-shadow(0 5px 15px rgba(231, 76, 60, 0.5));
+        }
+
+        @keyframes santaWave {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-20deg) scale(1.1); }
+            75% { transform: rotate(20deg) scale(1.1); }
+        }
+
+        .love-message {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .wish-input, .name-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #e74c3c;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .wish-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .hearts {
+            position: absolute;
+            font-size: 25px;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(15deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" style="top: 10%; left: 10%;">💝</div>
+    <div class="hearts" style="bottom: 15%; left: 20%; animation-delay: 2s;">💕</div>
+
+    <div class="page active" id="page0">
+        <div class="santa-emoji">🎅</div>
+        <h1>🎄 Welcome! 🎄</h1>
+        <p style="font-size: 1.3em; color: #e74c3c;">Ho Ho Ho! Santa wants to know your name! 🎅💕</p>
+        <input type="text" class="name-input" id="nameInput" placeholder="Enter your beautiful name... ✨" />
+        <button class="btn" onclick="saveName()">Continue to Magic 🎁</button>
+    </div>
+
+    <div class="page" id="page1">
+        <div class="santa-emoji">🎅</div>
+        <h1>🎄 Merry Christmas! 🎄</h1>
+        <div class="love-message">
+            <span id="welcomeName">My Dearest</span>,
+            <br><br>
+            This Christmas, I want to be your Santa! 🎅💕
+            <br><br>
+            Whatever your heart desires, just tell me and I'll make it come true! ✨
+        </div>
+        <button class="btn" onclick="goToPage(2)">Tell Me Your Wishes 🎁</button>
+    </div>
+
+    <div class="page" id="page2">
+        <h1>🎄 Your Wish List 🎄</h1>
+        <div class="santa-emoji" style="font-size: 4em;">🎁</div>
+        <p>Write down everything you wish for, <span id="wishName" style="color: #e74c3c; font-weight: bold;">Beautiful</span>! 💖</p>
+        <textarea class="wish-input" id="wishInput" placeholder="Write your wishes here... (I am listening!)"></textarea>
+        <button class="btn" onclick="submitToWhatsApp()">Send to Santa 💌</button>
+        <div class="success-message" id="successMsg">Opening WhatsApp... 🚀</div>
+    </div>
+
+    <script>
+        let userName = '';
+
+        // --- APNA NUMBER YAHAN DALO ---
+        const MY_WHATSAPP_NUMBER = "919334612629"; // Example: 919876543210 (India code ke sath)
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄️';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(snowflake);
+            setTimeout(() => { snowflake.remove(); }, 8000);
+        }
+        setInterval(createSnowflake, 200);
+
+        function saveName() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name) {
+                userName = name;
+                document.getElementById('welcomeName').textContent = name;
+                document.getElementById('wishName').textContent = name;
+                goToPage(1);
+            } else {
+                alert('Please enter your name! 🎅');
+            }
+        
+
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + pageNum).classList.add('active');
+        }
+
+        function submitToWhatsApp() {
+            const wish = document.getElementById('wishInput').value.trim();
+            if (wish) {
+                // Formatting message for WhatsApp
+                const text = `🎄 *NEW CHRISTMAS WISH* 🎄\n\n*From:* ${userName}\n*Wish:* ${wish}\n\n✨ _Waiting for Santa to fulfill this!_`;
+                const encodedText = encodeURIComponent(text);
+                const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodedText}`;
+                
+                // Show success and open WA
+                document.getElementById('successMsg').style.display = 'block';
+                
+                setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                    document.getElementById('successMsg').style.display = 'none';
+                }, 1000);
+            } else {
+                alert("Please write a wish first! 🎁");
+            }
+        }
+    </script>
+</body>
+</html>
